@@ -10,7 +10,7 @@ public class RechargePage {
     private SelenideElement sumField = $("div[data-test-id=amount] input");
     private SelenideElement accountField = $("span[data-test-id=from] input");
     private SelenideElement topUpButton = $("button[data-test-id=action-transfer]");
-    private static SelenideElement errorNotification = $("[data-test-id = error-notification]");
+    private SelenideElement errorNotification = $("div[data-test-id=error-notification]");
 
     public DashboardPage deposit(int amountDeposit, String sourceCard) {
         setAmount(amountDeposit);
@@ -31,10 +31,11 @@ public class RechargePage {
         sumField.setValue(Integer.toString(amountDeposit));
     }
 
-    public static void notableError() {
+    public void notableError() {
         errorNotification.shouldBe(Condition.visible);
     }
 
 
 }
+
 

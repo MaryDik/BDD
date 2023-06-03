@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
-import ru.netology.web.page.RechargePage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,11 +56,19 @@ public class MoneyTransferTest {
     }
 
     @Test
-    void emptyFromForFirstCard() {
+    void shouldNotTransferMoreThanAvailable() {
         amount = topUpBalanceCard1 + 100;
-        dashboardPage.depositFirstCard().deposit(amount, "");
-        RechargePage.notableError();
+        val topUpPage = dashboardPage.depositSecondCard();
+        val cardNum = DataHelper.getFirstCard().getNumber();
+        val dashboardPage2 = topUpPage.deposit(amount, cardNum);
+        endingBalanceCard1 = dashboardPage2.getFirstCardBalance();
+        endingBalanceCard2 = dashboardPage2.getSecondCardBalance();
+        topUpPage.notableError();
     }
+
+
 }
+
+
 
 
