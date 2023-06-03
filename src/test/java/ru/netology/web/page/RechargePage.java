@@ -1,29 +1,40 @@
 package ru.netology.web.page;
+
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
+
 public class RechargePage {
     private SelenideElement sumField = $("div[data-test-id=amount] input");
     private SelenideElement accountField = $("span[data-test-id=from] input");
     private SelenideElement topUpButton = $("button[data-test-id=action-transfer]");
-    private SelenideElement errorNotification = $("[data-test-id = error-notification]");
-    public DashboardPage successfulRecharge(String sum, String cardNum) {
-        sumField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
-        sumField.setValue(sum);
-        accountField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
-        accountField.setValue(cardNum);
-        sleep(5000);
+    private static SelenideElement errorNotification = $("[data-test-id = error-notification]");
+
+    public DashboardPage deposit(int amountDeposit, String sourceCard) {
+        setAmount(amountDeposit);
+        setSourceCard(sourceCard);
         topUpButton.click();
         return new DashboardPage();
     }
 
-    public void unsuccessfulRecharge(String sum, String cardNum) {
-        sumField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
-        sumField.setValue(sum);
-        accountField.setValue(cardNum);
-        errorNotification.shouldBe(visible);
+    public void setSourceCard(String sourceCard) {
+        accountField.sendKeys(Keys.CONTROL + "A");
+        accountField.sendKeys(Keys.DELETE);
+        accountField.setValue(sourceCard);
     }
+
+    public void setAmount(int amountDeposit) {
+        sumField.sendKeys(Keys.CONTROL + "A");
+        sumField.sendKeys(Keys.DELETE);
+        sumField.setValue(Integer.toString(amountDeposit));
+    }
+
+    public static void notableError() {
+        errorNotification.shouldBe(Condition.visible);
+    }
+
+
 }
+
