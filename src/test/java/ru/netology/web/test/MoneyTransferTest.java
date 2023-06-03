@@ -60,9 +60,7 @@ public class MoneyTransferTest {
         amount = topUpBalanceCard1 + 100;
         val topUpPage = dashboardPage.depositSecondCard();
         val cardNum = DataHelper.getFirstCard().getNumber();
-        val dashboardPage2 = topUpPage.deposit(amount, cardNum);
-        endingBalanceCard1 = dashboardPage2.getFirstCardBalance();
-        endingBalanceCard2 = dashboardPage2.getSecondCardBalance();
+        topUpPage.deposit(amount, cardNum);
         topUpPage.notableError();
     }
 
